@@ -9,9 +9,18 @@ using UnityEngine;
 public class GameController_script : MonoBehaviour
 {
     public int levelNum;
-    void Start()
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject vendingMachine;
+
+    private Vector3 playerPos = new Vector3(0, 0, 0);
+    private Vector3 vendingMachinePos = new Vector3(0.0f, 1.0f, 2.25f);
+
+    void OnEnable()
     {
+        GameObject currentPlayer = Instantiate(player, playerPos, Quaternion.identity);
+        currentPlayer.GetComponent<PlayerController_script>().playerMoney = levelNum*10; // Placeholder value for cash amount for each level
         
+        GameObject currentVendingMachine = Instantiate(vendingMachine, vendingMachinePos, Quaternion.identity);
     }
 
     void Update()
