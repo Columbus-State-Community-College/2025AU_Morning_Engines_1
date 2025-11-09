@@ -67,5 +67,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 633acbe7fbd76014b99926a9fedc31dc, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6554274662334903543}
   m_SourcePrefab: {fileID: 100100000, guid: 633acbe7fbd76014b99926a9fedc31dc, type: 3}
+--- !u!1 &4945222638194298280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 633acbe7fbd76014b99926a9fedc31dc, type: 3}
+  m_PrefabInstance: {fileID: 5215621471317504249}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6554274662334903543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4945222638194298280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c30658805baee4698918dae23c66cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snackPos: A1
+  snackCost: 1.99
+  snackStatus: 0
+  willGetStuck: 0
