@@ -56,10 +56,11 @@ MonoBehaviour:
   - {fileID: 3273626639613947253, guid: 77b38bf6e08a40848983a9d6e30a8bf5, type: 3}
   - {fileID: 2844080213192778593, guid: 858c1180843b73b42a0b2a7ae3836540, type: 3}
   - {fileID: 8075124136767649096, guid: b4301171a8ac0fb4297bfd4efd061eaf, type: 3}
-  - {fileID: 8159847828249598211, guid: 283cdb21ef526c9458df64c895b61c9f, type: 3}
+  - {fileID: 0}
   - {fileID: 3487967930261558229, guid: b71097d5606a98e419e0e1f02d1527e9, type: 3}
   - {fileID: 3697935364090729813, guid: 754de5557ced9d74ab09dd79be055a91, type: 3}
   - {fileID: 1877257102667844513, guid: 1fda27475e55b0d479fe0b854f402831, type: 3}
+  snackPosScale: {x: 0.25, y: 0.35, z: 1}
 --- !u!33 &2857499819256510812
 MeshFilter:
   m_ObjectHideFlags: 0

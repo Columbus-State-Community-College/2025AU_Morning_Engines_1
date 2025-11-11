@@ -7,11 +7,11 @@ using UnityEngine;
 
 public class SnackController_script : MonoBehaviour
 {
-    public string snackPos;   // Number string for snack position (not to be confused with an int!)
+    public string snackPos = null;   // Number string for snack position (not to be confused with an int!)
     public float snackCost;   // Cost of the snack
     public int snackStatus;   // Whether or not the snack has been emptied from the machine or not (0 is the starting value, 1 is when the snack is stuck, and 2 is when the snack has been dropped)
     public bool willGetStuck; // Determines if the snack will get stuck or not
-
+    public string positionID = null;
     void Start()
     {
         
