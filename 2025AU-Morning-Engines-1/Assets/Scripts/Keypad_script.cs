@@ -1,4 +1,7 @@
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /* Description:
     Depends on:
@@ -10,12 +13,55 @@ using UnityEngine;
  */
 public class Keypad_script : MonoBehaviour
 {
+    public string inputString = "";
+    [SerializeField] private TMPro.TMP_Text displayText;
+    
+    public static event Action<Keypad_script> OnEnterInput;
+
     void Start()
     {
-        
+
     }
     void Update()
     {
-        
+
+    }
+
+    public void ConcatenateInputString(string input)
+    {
+        if (inputString.Length >= 2)
+        {
+            Debug.LogWarning("Input string is too long, press reset to retry.");
+            return;
+        }
+        else if ((input == "A" || input == "B" || input == "C") && (inputString.Length == 1))
+        {
+            Debug.LogWarning("Only one letter can be entered, and only in the first position.");
+            return;
+        }
+        else if ((input == "1" || input == "2" || input == "3" || input == "4") && (inputString.Length == 0))
+        {
+            Debug.LogWarning("Only one number can be entered, and only in the last position.");
+            return;
+        }
+
+        inputString += input;
+        UpdateDisplay();
+    }
+    public void ResetInputString()
+    {
+        inputString = "";
+        UpdateDisplay();
+    }
+
+    private void UpdateDisplay()
+    {
+        displayText.text = inputString;
+    }
+
+    public void EnterInput()
+    {
+        OnEnterInput?.Invoke(this);
+        ResetInputString();
     }
 }
