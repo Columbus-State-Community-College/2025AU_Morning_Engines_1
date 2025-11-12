@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CandyBar1PlaceHolder_Model
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 633acbe7fbd76014b99926a9fedc31dc, type: 3}
+      propertyPath: m_TagString
+      value: snack
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

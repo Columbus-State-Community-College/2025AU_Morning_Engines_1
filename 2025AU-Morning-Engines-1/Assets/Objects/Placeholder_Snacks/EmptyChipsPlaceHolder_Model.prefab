@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EmptyChipsPlaceHolder_Model
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ee01e3eed59d9a44aaa26ab92a474539, type: 3}
+      propertyPath: m_TagString
+      value: snack
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -93,3 +97,4 @@ MonoBehaviour:
   snackCost: 2.99
   snackStatus: 0
   willGetStuck: 0
+  positionID: 
