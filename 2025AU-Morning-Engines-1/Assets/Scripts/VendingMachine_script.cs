@@ -15,13 +15,17 @@ using UnityEngine;
 public class VendingMachine_script : MonoBehaviour
 {
     [SerializeField] private GameObject[] snacks; // Array with all of the snacks in it for this level
+    [SerializeField] private GameObject[] levels;
+
+    private int levelNumber = 0; // fix later
+
     private int input; // input from the keypad UI
     private string[] positionIDs = {
         "A1", "A2", "A3", "A4",
         "B1", "B2", "B3", "B4",
         "C1", "C2", "C3", "C4"};
     private Vector3[] positionVectors = {
-        new Vector3(1, 1, 0), new Vector3(2, 1, 0), new Vector3(3, 1, 0), new Vector3(4, 1, 0),
+        new Vector3(-0.5f,-0.5f,-0.58f), new Vector3(-0.5f,-0.5f,-0.58f), new Vector3(3, 1, 0), new Vector3(4, 1, 0),
         new Vector3(1, 2, 0), new Vector3(2, 2, 0), new Vector3(3, 2, 0), new Vector3(4, 2, 0),
         new Vector3(1, 3, 0), new Vector3(2, 3, 0), new Vector3(3, 3, 0), new Vector3(4, 3, 0),
         new Vector3(1, 4, 0), new Vector3(2, 4, 0), new Vector3(3, 4, 0), new Vector3(4, 4, 0)}; // Possible positions for snacks, will need to be scaled
@@ -29,14 +33,13 @@ public class VendingMachine_script : MonoBehaviour
     public Vector3 snackPosScale = new Vector3(0.23f, 0.43f, 1); // Scale for the position vectors
     private void Start()
     {
+
         SetSnacks();
         CheckSnacks();
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-                { SetSnacks(); }
         
     }
 
@@ -48,16 +51,15 @@ public class VendingMachine_script : MonoBehaviour
             transform.position.x - 0.83f, 
             transform.position.y - 0.83f, 
             transform.position.z - 0.55f); // Position offset for the position vectors after scaling
-        for (int i = 0; i < snacks.Length; i++)
+        for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
         {
+            snacks[i] = levels[levelNumber].transform.GetChild(i).gameObject;
             try // The code here attempts to access each index of snacks[], so if there isn’t a snack at one of the indexes, then it will catch that and move to the next iteration
             {
                 Vector3 scaledPosition = new Vector3(positionVectors[i].x * snackPosScale.x, 
                                                      positionVectors[i].y * snackPosScale.y,
                                                      positionVectors[i].z * snackPosScale.z);
                 Vector3 finalizedPosition = scaledPosition + snackPosOffset;
-                GameObject indexedSnack = Instantiate(snacks[i], finalizedPosition, Quaternion.Euler(0, 270, 90)); // Creates a snack with the finalized position and the vending machine as a parent
-                indexedSnack.GetComponent<SnackController_script>().positionID = positionIDs[i]; // Sets the positionID of the snack
             }
             catch
             {
@@ -69,7 +71,7 @@ public class VendingMachine_script : MonoBehaviour
     }
     private void CheckSnacks() // Makes sure all of the snacks are accounted for in their price and status
     {
-        for (int i = 0; i < snacks.Length; i++)
+        for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
         {
             try { Debug.Log("Snack " + i + ": "); }
             catch

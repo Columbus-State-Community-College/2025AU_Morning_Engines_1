@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelNum: 0
-  player: {fileID: 2159232054923079420, guid: adc1b67c1f4a1cc4183609a96ba4a979, type: 3}
-  vendingMachines:
-  - {fileID: 1640341729421795989, guid: 873fc6cb3619e1c4aa8d9b6c86e64ef1, type: 3}
+  player: {fileID: 0}
+  levels:
+  - {fileID: 0}
+  - {fileID: 0}
