@@ -2007,6 +2007,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1298023731365025329, guid: 0a64a9a918fcbab44959ba969bb4c9e0, type: 3}
+      propertyPath: snacks.Array.size
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3417232908088927803, guid: 0a64a9a918fcbab44959ba969bb4c9e0, type: 3}
       propertyPath: m_Name
       value: VendingMachine

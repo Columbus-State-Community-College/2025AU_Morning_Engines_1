@@ -14,8 +14,8 @@ using UnityEngine;
  */
 public class VendingMachine_script : MonoBehaviour
 {
-    [SerializeField] private GameObject[] snacks; // Array with all of the snacks in it for this level
     [SerializeField] private GameObject[] levels;
+    [SerializeField] private GameObject[] snacks; // Array with all of the snacks in it for this level
 
     private int levelNumber = 0; // fix later
 
