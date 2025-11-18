@@ -1,3 +1,5 @@
+using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 /* Description:
@@ -22,17 +24,26 @@ public class SnackController_script : MonoBehaviour
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = transform.GetChild(0).gameObject.GetComponent<Animator>(); // Gets the animator from the visual child object of each snack
         if (animator == null)
         {
-            Debug.LogWarning("Animator component was not found on " + this.gameObject.name);
+            animator = transform.GetChild(0).GetChild(0).gameObject.GetComponent<Animator>();
+        }
+        else if ( animator == null)
+        {
+            Debug.LogWarning("Child object Animator component was not found on " + this.gameObject.name);
         }
 
     }
 
     private void Update()
     {
-        
+        AnimatorStateInfo animatorState = animator.GetCurrentAnimatorStateInfo(0);
+        if (animatorState.normalizedTime >= 1.0f && animatorState.IsName("SnackFall"))
+        {
+            this.gameObject.AddComponent<Rigidbody>();
+            animator.Play("Idle");
+        }
     }
 
     public void TryDropSnack() // Used to try to drop a snack, it does this by adding to the snackStatus
@@ -47,8 +58,16 @@ public class SnackController_script : MonoBehaviour
         {
             maxStatus = 1;
         }
+        
+        if (snackStatus < 2)
+        {
+            snackStatus += 1; // snackStatus cannot equal zero from now on
+        }
+        else
+        {
+            Debug.Log("That snack has already been bought!");
+        }
 
-        snackStatus += 1; // snackStatus cannot equal zero from now on
 
         if (snackStatus == maxStatus)
         {
@@ -58,9 +77,7 @@ public class SnackController_script : MonoBehaviour
         else
         {
             Debug.Log("snack should be stuck");
-            animator.Play("StuckAnimation");
+            //animator.Play("StuckAnimation");
         }
-
-        return;
     }
 }

@@ -115,12 +115,20 @@ public class VendingMachine_script : MonoBehaviour
         input = keypadScript.inputString;
         for (int i = 0; i < snacks.Length; i++) // for each snack
         {
-            SnackController_script currentSnackScript = snacks[i].transform.GetComponent<SnackController_script>();
-            
-            if (currentSnackScript.snackPosID == input)
+            if (snacks[i] != null)
             {
-                currentSnackScript.TryDropSnack();
+                SnackController_script currentSnackScript = snacks[i].transform.GetComponent<SnackController_script>();
+                if (currentSnackScript.snackPosID == input)
+                {
+                    currentSnackScript.TryDropSnack();
+                }
             }
+            else
+            {
+                return;
+            }
+
+            
         }
     }
 
