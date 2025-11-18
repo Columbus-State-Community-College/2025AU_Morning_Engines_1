@@ -20,7 +20,7 @@ public class VendingMachine_script : MonoBehaviour
 
     private int levelNumber = 0; // fix later
 
-    private int input; // input from the keypad UI
+    private string input; // input from the keypad UI
     private string[] positionIDs = {
         "A1", "A2", "A3", "A4",
         "B1", "B2", "B3", "B4",
@@ -37,7 +37,7 @@ public class VendingMachine_script : MonoBehaviour
         Keypad_script.OnEnterInput += GetInputFromKeypad;
         
         SetSnacks();
-        CheckSnacks();
+        //CheckSnacks();
     }
 
     public void SetSnacks() // Positions all of the snacks for the level, called by GameController
@@ -73,8 +73,10 @@ public class VendingMachine_script : MonoBehaviour
     }
     private void CheckSnacks() // Makes sure all of the snacks are accounted for in their price and status
     {
+        Debug.Log("----------- CheckSnacks() Start -----------");
         for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
         {
+            
             try { Debug.Log("Snack " + i + ": "); }
             catch
             {
@@ -93,23 +95,41 @@ public class VendingMachine_script : MonoBehaviour
                 Debug.LogWarning("snacks[" + i + "].snackCost is not defined");
             }
 
-            try { Debug.Log("  Status: " +snacks[i].GetComponent<SnackController_script>().snackStatus); }
+            try { Debug.Log("  Status: " + snacks[i].GetComponent<SnackController_script>().snackStatus); }
             catch
             {
                 Debug.LogWarning("snacks[" + i + "].snackStatus is not defined");
             }
 
-            try { Debug.Log("  WillGetStuck: " +snacks[i].GetComponent<SnackController_script>().willGetStuck); }
+            try { Debug.Log("  WillGetStuck: " + snacks[i].GetComponent<SnackController_script>().willGetStuck); }
             catch
             {
                 Debug.LogWarning("snacks[" + i + "].willGetStuck is not defined");
             }
         }
+        Debug.Log("----------- CheckSnacks() End -----------");
     }
     private void GetInputFromKeypad(Keypad_script keypadScript)
     {
-
         Debug.Log("Input inputted: " + keypadScript.inputString);
+        input = keypadScript.inputString;
+        for (int i = 0; i < snacks.Length; i++) // for each snack
+        {
+            if (snacks[i] != null)
+            {
+                SnackController_script currentSnackScript = snacks[i].transform.GetComponent<SnackController_script>();
+                if (currentSnackScript.snackPosID == input)
+                {
+                    currentSnackScript.TryDropSnack();
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            
+        }
     }
 
     private void OnDisable()
@@ -117,5 +137,3 @@ public class VendingMachine_script : MonoBehaviour
         Keypad_script.OnEnterInput -= GetInputFromKeypad;
     }
 }
-
-// change the initializations of snack variables to be null at first in snackcontroller
