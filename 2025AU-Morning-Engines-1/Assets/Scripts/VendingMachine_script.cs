@@ -1,4 +1,4 @@
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using TMPro;
 using UnityEngine;
 
 /* Description:
@@ -16,6 +16,8 @@ public class VendingMachine_script : MonoBehaviour
 {
     [SerializeField] private GameObject[] levels;
     [SerializeField] private GameObject[] snacks; // Array with all of the snacks in it for this level
+    [SerializeField] private Transform vendingUI;
+    [SerializeField] private GameObject snackPrice;
     
 
     private int levelNumber = 0; // fix later
@@ -25,13 +27,6 @@ public class VendingMachine_script : MonoBehaviour
         "A1", "A2", "A3", "A4",
         "B1", "B2", "B3", "B4",
         "C1", "C2", "C3", "C4"};
-    private Vector3[] positionVectors = {
-        new Vector3(-0.5f,-0.5f,-0.58f), new Vector3(-0.5f,-0.5f,-0.58f), new Vector3(3, 1, 0), new Vector3(4, 1, 0),
-        new Vector3(1, 2, 0), new Vector3(2, 2, 0), new Vector3(3, 2, 0), new Vector3(4, 2, 0),
-        new Vector3(1, 3, 0), new Vector3(2, 3, 0), new Vector3(3, 3, 0), new Vector3(4, 3, 0),
-        new Vector3(1, 4, 0), new Vector3(2, 4, 0), new Vector3(3, 4, 0), new Vector3(4, 4, 0)}; // Possible positions for snacks, will need to be scaled
-
-    public Vector3 snackPosScale = new Vector3(0.23f, 0.43f, 1); // Scale for the position vectors
     private void Start()
     {
         Keypad_script.OnEnterInput += GetInputFromKeypad;
@@ -44,22 +39,12 @@ public class VendingMachine_script : MonoBehaviour
     {
         // for each snack, put them in their spot, and assign them their positionID (A1, A2, etc.)
 
-        Vector3 snackPosOffset = new Vector3(
-            transform.position.x - 0.83f, 
-            transform.position.y - 0.83f, 
-            transform.position.z - 0.55f); // Position offset for the position vectors after scaling
-
         for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
         {
             snacks[i] = levels[levelNumber].transform.GetChild(i).gameObject;
 
             try // The code here attempts to access each index of snacks[], so if there isn’t a snack at one of the indexes, then it will catch that and move to the next iteration
             {
-                Vector3 scaledPosition = new Vector3(positionVectors[i].x * snackPosScale.x, 
-                                                     positionVectors[i].y * snackPosScale.y,
-                                                     positionVectors[i].z * snackPosScale.z);
-                Vector3 finalizedPosition = scaledPosition + snackPosOffset;
-
                 snacks[i].SetActive(true);
                 snacks[i].GetComponent<SnackController_script>().snackPosID = positionIDs[i];
             }
@@ -68,6 +53,8 @@ public class VendingMachine_script : MonoBehaviour
                 Debug.Log("There was no snack at index: " + i);
                 continue; // Move on to next iteration
             }
+
+            SetSnackPrices(snacks[i]);
         }
         return;
     }
@@ -132,6 +119,12 @@ public class VendingMachine_script : MonoBehaviour
         }
     }
 
+    private void SetSnackPrices(GameObject currentSnack)
+    {
+        Vector3 snackPriceOffset = new Vector3(0, 0.21f, 0.02f);
+        GameObject currentPrice = Instantiate(snackPrice, currentSnack.transform.position - snackPriceOffset, Quaternion.identity, vendingUI);
+        currentPrice.transform.GetComponent<TextMeshProUGUI>().text = currentSnack.transform.GetComponent<SnackController_script>().snackCost.ToString();
+    }
     private void OnDisable()
     {
         Keypad_script.OnEnterInput -= GetInputFromKeypad;
