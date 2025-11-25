@@ -8,7 +8,7 @@ using UnityEngine;
 */
 public class GameController_script : MonoBehaviour
 {
-    public int levelNum;
+    public static int levelNum;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject[] levels;
 
@@ -18,7 +18,6 @@ public class GameController_script : MonoBehaviour
     void OnEnable()
     {
         player.SetActive(true);
-        player.GetComponent<PlayerController_script>().playerMoney = levelNum*10; // Placeholder value for cash amount for each level
 
         levels[levelNum].SetActive(true);
     }

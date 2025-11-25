@@ -9,13 +9,19 @@ using UnityEngine;
 */
 public class PlayerController_script : MonoBehaviour
 {
-    public float playerMoney;
+    public static float playerMoney;
     [SerializeField] TextMeshProUGUI cashTextElement;
 
     private float scrollSpeed = 0.05f;
-    void Start()
+    private void Start()
     {
+        DetermineStartingCash();
         this.gameObject.SetActive(false);
+    }
+    void OnEnable()
+    {
+        cashTextElement.text = playerMoney.ToString();
+        SnackController_script.OnSnackBought += ChangePlayerMoney;
     }
 
     void Update()
@@ -28,7 +34,30 @@ public class PlayerController_script : MonoBehaviour
         {
             transform.Translate(Vector3.down * scrollSpeed);
         }
-        cashTextElement.text = playerMoney.ToString();
+        
 
+    }
+
+    private void DetermineStartingCash()
+    {
+        switch (GameController_script.levelNum)
+        {
+            case 0:
+                playerMoney = 12.23f;
+                break;
+            case 1:
+                playerMoney = 15.34f;
+                break;
+        }
+    }
+    private void ChangePlayerMoney(SnackController_script snackController)
+    {
+        playerMoney -= snackController.snackCost;
+        cashTextElement.text = playerMoney.ToString();
+    }
+
+    private void OnDisable()
+    {
+        SnackController_script.OnSnackBought -= ChangePlayerMoney;
     }
 }

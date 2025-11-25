@@ -60,7 +60,7 @@ public class Keypad_script : MonoBehaviour
 
     public void EnterInput()
     {
-        OnEnterInput?.Invoke(this);
+        OnEnterInput?.Invoke(this); // Sends an event to VendingMachine_script to try the input, can also be used for SFX for entering a combination
         ResetInputString();
     }
 }

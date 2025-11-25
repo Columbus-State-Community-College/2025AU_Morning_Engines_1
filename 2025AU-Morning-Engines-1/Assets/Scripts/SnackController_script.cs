@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class SnackController_script : MonoBehaviour
     public int willGetStuck; // Determines if the snack will get stuck or not
     private Animator animator;
     private Vector3 dispenseLocation;
+    public static event Action<SnackController_script> OnSnackBought;
 
     // change to an int value. 
     // 0 is that it won't be 
@@ -36,7 +38,8 @@ public class SnackController_script : MonoBehaviour
         }
         dispenseLocation = GameObject.Find("DispenseSpot").transform.position;
 
-    }
+        
+}
 
     private void Update()
     {
@@ -61,14 +64,19 @@ public class SnackController_script : MonoBehaviour
         {
             maxStatus = 1;
         }
-        
-        if (snackStatus < 2)
+
+        if (snackStatus >= 2) // snack spot empty
+        {
+            Debug.Log("That snack has already been bought!");
+        }
+        else if (PlayerController_script.playerMoney > snackCost) // if less than 2, then the snack can still be bought and the price has to be checked here
         {
             snackStatus += 1; // snackStatus cannot equal zero from now on
+            OnSnackBought?.Invoke(this); // Sends an event to PlayerController_script to edit the player money, can also be used for SFX
         }
         else
         {
-            Debug.Log("That snack has already been bought!");
+            Debug.Log("Not enough cash!");
         }
 
 
@@ -77,7 +85,7 @@ public class SnackController_script : MonoBehaviour
             Debug.Log("Snack should be falling");
             StartCoroutine(DispenseSnack());
         }
-        else
+        else if (snackStatus == 1)
         {
             Debug.Log("Snack should be stuck");
             //animator.Play("StuckAnimation");
