@@ -26,11 +26,11 @@ public class SnackController_script : MonoBehaviour
     private void Start()
     {
         animator = transform.GetChild(0).gameObject.GetComponent<Animator>(); // Gets the animator from the visual child object of each snack
-        if (animator == null)
+        if (animator == null) // This is used for cans since they have a more complicated structure for their animations
         {
             animator = transform.GetChild(0).GetChild(0).gameObject.GetComponent<Animator>();
         }
-        else if ( animator == null)
+        else if (animator == null)
         {
             Debug.LogWarning("Child object Animator component was not found on " + this.gameObject.name);
         }
@@ -93,21 +93,28 @@ public class SnackController_script : MonoBehaviour
         this.gameObject.GetComponent<Rigidbody>().useGravity = false;
 
         yield return new WaitForSeconds(1.0f); // Wait to dispense snack
+        BoxCollider snackCollider;
         if (transform.GetChild(0).gameObject.GetComponent<BoxCollider>() != null)
         {
-            transform.GetChild(0).gameObject.GetComponent<BoxCollider>().enabled = false;
+            snackCollider = transform.GetChild(0).gameObject.GetComponent<BoxCollider>();
         }
-        else
+        else if (transform.GetChild(0).GetChild(0).gameObject.GetComponent<BoxCollider>()) // This is used for cans since they have a more complicated structure for their animations
         {
-            transform.GetChild(0).GetChild(0).gameObject.GetComponent<BoxCollider>().enabled = false;
+            snackCollider = transform.GetChild(0).GetChild(0).gameObject.GetComponent<BoxCollider>();
+        }
+        else 
+        { 
+            Debug.LogWarning("Child object BoxCollider component was not found on " + this.gameObject.name);
+            snackCollider = null;
         }
 
-
-            transform.position = dispenseLocation;
+        snackCollider.enabled = false;
+        transform.position = dispenseLocation;
+        transform.rotation = Quaternion.Euler(-180, 0, 0);
         animator.Play("SnackDispense");
 
         yield return new WaitForSeconds(1.0f); // Wait for the dispense animation
-        transform.GetChild(0).gameObject.GetComponent<BoxCollider>().enabled = true;
+        snackCollider.enabled = true;
         this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         this.gameObject.GetComponent<Rigidbody>().useGravity = true;
         yield return null;
