@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 /* Description:
@@ -9,11 +10,12 @@ using UnityEngine;
 public class PlayerController_script : MonoBehaviour
 {
     public float playerMoney;
+    [SerializeField] TextMeshProUGUI cashTextElement;
 
     private float scrollSpeed = 0.05f;
     void Start()
     {
-        
+        this.gameObject.SetActive(false);
     }
 
     void Update()
@@ -26,7 +28,7 @@ public class PlayerController_script : MonoBehaviour
         {
             transform.Translate(Vector3.down * scrollSpeed);
         }
-
+        cashTextElement.text = playerMoney.ToString();
 
     }
 }
