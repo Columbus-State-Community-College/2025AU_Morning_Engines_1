@@ -14,6 +14,7 @@ public class SnackController_script : MonoBehaviour
     public int snackStatus;   // Whether or not the snack has been emptied from the machine or not (0 is the starting value, 1 is when the snack is stuck, and 2 is when the snack has been dropped)
     public int willGetStuck; // Determines if the snack will get stuck or not
     private Animator animator;
+    private Vector3 dispenseLocation;
 
     // change to an int value. 
     // 0 is that it won't be 
@@ -33,6 +34,7 @@ public class SnackController_script : MonoBehaviour
         {
             Debug.LogWarning("Child object Animator component was not found on " + this.gameObject.name);
         }
+        dispenseLocation = GameObject.Find("DispenseSpot").transform.position;
 
     }
 
@@ -72,13 +74,42 @@ public class SnackController_script : MonoBehaviour
 
         if (snackStatus == maxStatus)
         {
-            Debug.Log("snack should be falling");
-            animator.Play("SnackFall");
+            Debug.Log("Snack should be falling");
+            StartCoroutine(DispenseSnack());
         }
         else
         {
-            Debug.Log("snack should be stuck");
+            Debug.Log("Snack should be stuck");
             //animator.Play("StuckAnimation");
         }
+    }
+
+    private IEnumerator DispenseSnack()
+    {
+        animator.Play("SnackFall");
+
+        yield return new WaitForSeconds(2.0f); // Wait for the snack to fall
+        this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        this.gameObject.GetComponent<Rigidbody>().useGravity = false;
+
+        yield return new WaitForSeconds(1.0f); // Wait to dispense snack
+        if (transform.GetChild(0).gameObject.GetComponent<BoxCollider>() != null)
+        {
+            transform.GetChild(0).gameObject.GetComponent<BoxCollider>().enabled = false;
+        }
+        else
+        {
+            transform.GetChild(0).GetChild(0).gameObject.GetComponent<BoxCollider>().enabled = false;
+        }
+
+
+            transform.position = dispenseLocation;
+        animator.Play("SnackDispense");
+
+        yield return new WaitForSeconds(1.0f); // Wait for the dispense animation
+        transform.GetChild(0).gameObject.GetComponent<BoxCollider>().enabled = true;
+        this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        this.gameObject.GetComponent<Rigidbody>().useGravity = true;
+        yield return null;
     }
 }
