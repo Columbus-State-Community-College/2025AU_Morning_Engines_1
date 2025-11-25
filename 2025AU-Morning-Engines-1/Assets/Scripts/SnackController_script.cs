@@ -41,7 +41,8 @@ public class SnackController_script : MonoBehaviour
         AnimatorStateInfo animatorState = animator.GetCurrentAnimatorStateInfo(0);
         if (animatorState.normalizedTime >= 1.0f && animatorState.IsName("SnackFall"))
         {
-            this.gameObject.AddComponent<Rigidbody>();
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            this.gameObject.GetComponent<Rigidbody>().useGravity = true;
             animator.Play("Idle");
         }
     }
