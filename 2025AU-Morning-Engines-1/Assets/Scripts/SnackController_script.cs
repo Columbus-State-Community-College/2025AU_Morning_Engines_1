@@ -18,12 +18,18 @@ public class SnackController_script : MonoBehaviour
     private Vector3 dispenseLocation;
     public static event Action<SnackController_script> OnSnackBought;
 
-    // change to an int value. 
-    // 0 is that it won't be 
-    // 1 is that it needs to be bought twice because it's a row back
-    // 2 is it will get stuck
-    // then we could use this variable for the visual part maybe
-    // also maybe add a thing were Ints 3 and over
+    public enum SnackType 
+    {
+        Soda_Can,
+        Soda_Bottle,
+        Water_Bottle,
+        Chip_Bag,
+        Candy_Bar,
+        Candy_Packet
+    }
+
+    public string ThisSnack; // this variable is assigned in the inspector
+
 
     private void Start()
     {
@@ -39,7 +45,7 @@ public class SnackController_script : MonoBehaviour
         dispenseLocation = GameObject.Find("DispenseSpot").transform.position;
 
         
-}
+    }
 
     private void Update()
     {
