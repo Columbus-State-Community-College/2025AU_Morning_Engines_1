@@ -13,11 +13,13 @@ public class Menus_script : MonoBehaviour
     public void Start()
     {
         startButton.Select();
+        SoundEffectManager_script.Instance.Play(SoundEffectManager_script.SoundType.UI); // plays sound effect
     }
 
     public void SelectButton(Button button)
     {
         button.Select();
+        SoundEffectManager_script.Instance.Play(SoundEffectManager_script.SoundType.UI); // plays sound effect
     }
 
     public void exitgame()

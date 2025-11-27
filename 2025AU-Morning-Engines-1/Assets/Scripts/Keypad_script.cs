@@ -56,6 +56,7 @@ public class Keypad_script : MonoBehaviour
     private void UpdateDisplay()
     {
         displayText.text = inputString;
+        SoundEffectManager_script.Instance.Play(SoundEffectManager_script.SoundType.Keypad_input); // plays sound effect for pressing buttons
     }
 
     public void EnterInput()

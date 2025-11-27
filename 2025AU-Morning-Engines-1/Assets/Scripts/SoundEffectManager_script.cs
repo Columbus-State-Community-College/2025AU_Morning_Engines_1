@@ -75,6 +75,9 @@ public class SoundEffectManager_script : MonoBehaviour
         audioSrc.clip = s.Clip;
         audioSrc.volume = s.Volume;
 
+        audioSrc.pitch = UnityEngine.Random.Range(0.8f, 1.2f); 
+        // randomizes pitch to make the sound effects feel less repetitive when doing the same one repeatedly
+        // ex: pressing keys
         audioSrc.Play();
 
         Destroy(soundObj, s.Clip.length);
