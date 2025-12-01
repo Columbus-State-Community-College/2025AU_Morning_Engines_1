@@ -15,9 +15,10 @@ using UnityEngine;
 public class VendingMachine_script : MonoBehaviour
 {
     [SerializeField] private GameObject[] levels;
-    [SerializeField] private GameObject[] snacks; // Array with all of the snacks in it for this level
+    public GameObject[] snacks; // Array with all of the snacks in it for this level
     [SerializeField] private Transform vendingUI;
     [SerializeField] private GameObject snackPrice;
+    public int width = 4; // Amount of snack positions in each row
     
 
     private int levelNumber = 0; // fix later
@@ -47,6 +48,7 @@ public class VendingMachine_script : MonoBehaviour
             {
                 snacks[i].SetActive(true);
                 snacks[i].GetComponent<SnackController_script>().snackPosID = positionIDs[i];
+                snacks[i].GetComponent<SnackController_script>().snackIndex = i;
             }
             catch
             {
@@ -96,6 +98,7 @@ public class VendingMachine_script : MonoBehaviour
         }
         Debug.Log("----------- CheckSnacks() End -----------");
     }
+    
     private void GetInputFromKeypad(Keypad_script keypadScript)
     {
         Debug.Log("Input inputted: " + keypadScript.inputString);

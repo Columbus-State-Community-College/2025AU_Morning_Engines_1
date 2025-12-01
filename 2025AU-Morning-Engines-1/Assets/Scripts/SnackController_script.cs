@@ -11,6 +11,7 @@ using UnityEngine;
 public class SnackController_script : MonoBehaviour
 {
     public string snackPosID;   // Number string for snack position (not to be confused with an int!)
+    public int snackIndex; // index of the snack in snacks[] variable in the VendingMachine_script
     public float snackCost;   // Cost of the snack
     public int snackStatus;   // Whether or not the snack has been emptied from the machine or not (0 is the starting value, 1 is when the snack is stuck, and 2 is when the snack has been dropped)
     public int willGetStuck; // Determines if the snack will get stuck or not
@@ -58,10 +59,11 @@ public class SnackController_script : MonoBehaviour
         }
     }
 
-    public void TryDropSnack() // Used to try to drop a snack, it does this by adding to the snackStatus
+    public void TryDropSnack(string fallCondition = "defaultString") // Used to try to drop a snack, it does this by adding to the snackStatus
+                                                                     // fallCondition is just used for when a snack falls onto another snack
     {
         int maxStatus;
-        Debug.Log("dropping snack: " + snackPosID);
+        // Debug.Log("dropping snack: " + snackPosID);
         if (willGetStuck == 1)
         { maxStatus = 2; }
         else
@@ -69,9 +71,15 @@ public class SnackController_script : MonoBehaviour
 
 
 
-        if (snackStatus == maxStatus) // snack spot empty
+        if (snackStatus == maxStatus) // if snack spot empty
         {
             Debug.Log("That snack has already been bought!");
+        }
+        else if (fallCondition == "Unstuck") // if this method is called due to a snack falling onto another snack
+        {
+            Debug.Log(snackPosID + " should be unstuck");
+            snackStatus += 1;
+            StartCoroutine(DispenseSnack());
         }
         else if (PlayerController_script.playerMoney > snackCost) // the snack can still be bought and the price has to be checked here
         {
@@ -80,22 +88,34 @@ public class SnackController_script : MonoBehaviour
 
             if (snackStatus == maxStatus)
             {
-                Debug.Log("Snack should be falling");
+                Debug.Log(snackPosID + " should be falling");
                 StartCoroutine(DispenseSnack());
             }
             else if (snackStatus == 1)
             {
-                Debug.Log("Snack should be stuck");
+                Debug.Log(snackPosID + " should be stuck");
                 animator.Play("SnackStuck");
             }
         }
         else
         { Debug.Log("Not enough cash!"); }
-
-
-
-        
     }
+
+    private void HitBelowSnacks() // Activates anytime a snack falls
+    {
+        VendingMachine_script vendingScript = FindAnyObjectByType<VendingMachine_script>();
+        if ((snackIndex - vendingScript.width) < 0)
+        { 
+            return;
+        }
+
+        SnackController_script snackScriptBelow = vendingScript.snacks[snackIndex - vendingScript.width].transform.GetComponent<SnackController_script>();
+        if ((snackScriptBelow.snackStatus == 1) && (snackScriptBelow.willGetStuck == 1))
+        {
+            snackScriptBelow.TryDropSnack("Unstuck");
+        }
+    }
+
 
     private IEnumerator DispenseSnack()
     {
@@ -113,6 +133,7 @@ public class SnackController_script : MonoBehaviour
         
         this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         this.gameObject.GetComponent<Rigidbody>().useGravity = true;
+        HitBelowSnacks();
 
         yield return new WaitForSeconds(1.0f); // Wait to dispense snack
 
