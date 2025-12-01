@@ -62,51 +62,60 @@ public class SnackController_script : MonoBehaviour
     {
         int maxStatus;
         Debug.Log("dropping snack: " + snackPosID);
-        if (willGetStuck == 2)
-        {
-            maxStatus = 2;
-        }
+        if (willGetStuck == 1)
+        { maxStatus = 2; }
         else
-        {
-            maxStatus = 1;
-        }
+        { maxStatus = 1; }
 
-        if (snackStatus >= 2) // snack spot empty
+
+
+        if (snackStatus == maxStatus) // snack spot empty
         {
             Debug.Log("That snack has already been bought!");
         }
-        else if (PlayerController_script.playerMoney > snackCost) // if less than 2, then the snack can still be bought and the price has to be checked here
+        else if (PlayerController_script.playerMoney > snackCost) // the snack can still be bought and the price has to be checked here
         {
             snackStatus += 1; // snackStatus cannot equal zero from now on
             OnSnackBought?.Invoke(this); // Sends an event to PlayerController_script to edit the player money, can also be used for SFX
+
+            if (snackStatus == maxStatus)
+            {
+                Debug.Log("Snack should be falling");
+                StartCoroutine(DispenseSnack());
+            }
+            else if (snackStatus == 1)
+            {
+                Debug.Log("Snack should be stuck");
+                animator.Play("SnackStuck");
+            }
         }
         else
-        {
-            Debug.Log("Not enough cash!");
-        }
+        { Debug.Log("Not enough cash!"); }
 
 
-        if (snackStatus == maxStatus)
-        {
-            Debug.Log("Snack should be falling");
-            StartCoroutine(DispenseSnack());
-        }
-        else if (snackStatus == 1)
-        {
-            Debug.Log("Snack should be stuck");
-            animator.Play("SnackStuck");
-        }
+
+        
     }
 
     private IEnumerator DispenseSnack()
     {
-        animator.Play("SnackFall");
+        if (willGetStuck == 0)
+        { 
+            animator.Play("SnackFall");
+            yield return new WaitForSeconds(1.2f); // Wait for the snack to fall
+        }
+        else if (willGetStuck == 1)
+        {
+            animator.Play("SnackUnstuck");
+            yield return new WaitForSeconds(0.5f); // Wait for the snack to fall
+        }
 
-        yield return new WaitForSeconds(2.0f); // Wait for the snack to fall
-        this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-        this.gameObject.GetComponent<Rigidbody>().useGravity = false;
+        
+        this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        this.gameObject.GetComponent<Rigidbody>().useGravity = true;
 
         yield return new WaitForSeconds(1.0f); // Wait to dispense snack
+
         BoxCollider snackCollider;
         if (transform.GetChild(0).gameObject.GetComponent<BoxCollider>() != null)
         {
@@ -128,6 +137,7 @@ public class SnackController_script : MonoBehaviour
         animator.Play("SnackDispense");
 
         yield return new WaitForSeconds(1.0f); // Wait for the dispense animation
+
         snackCollider.enabled = true;
         this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         this.gameObject.GetComponent<Rigidbody>().useGravity = true;
