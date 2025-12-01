@@ -94,7 +94,7 @@ public class SnackController_script : MonoBehaviour
         else if (snackStatus == 1)
         {
             Debug.Log("Snack should be stuck");
-            //animator.Play("StuckAnimation");
+            animator.Play("SnackStuck");
         }
     }
 
