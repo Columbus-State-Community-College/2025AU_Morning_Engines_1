@@ -44,8 +44,6 @@ public class SnackController_script : MonoBehaviour
             Debug.LogWarning("Child object Animator component was not found on " + this.gameObject.name);
         }
         dispenseLocation = GameObject.Find("DispenseSpot").transform.position;
-
-        
     }
 
     private void Update()

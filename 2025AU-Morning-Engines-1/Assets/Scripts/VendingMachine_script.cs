@@ -19,7 +19,8 @@ public class VendingMachine_script : MonoBehaviour
     [SerializeField] private GameObject[] levels;
     public GameObject[] snacks; // Array with all of the snacks in it for this level
     [SerializeField] private Transform vendingUI;
-    [SerializeField] private GameObject snackPrice;
+    [SerializeField] private GameObject snackPriceUI;
+    [SerializeField] private GameObject snackLocationUI;
     public int width = 4; // Amount of snack positions in each row
     public static event Action<VendingMachine_script> OnGameWin;
     public static event Action<VendingMachine_script> OnGameLose;
@@ -60,7 +61,8 @@ public class VendingMachine_script : MonoBehaviour
                 continue; // Move on to next iteration
             }
 
-            SetSnackPrices(snacks[i]);
+            SetSnackPriceUIs(snacks[i]);
+            SetSnackLocationUIs(snacks[i]);
         }
         return;
     }
@@ -169,11 +171,18 @@ public class VendingMachine_script : MonoBehaviour
         }
     }
 
-    private void SetSnackPrices(GameObject currentSnack)
+    private void SetSnackPriceUIs(GameObject currentSnack) // Spawns in the price UI for the vending machine snacks
     {
-        Vector3 snackPriceOffset = new Vector3(0, 0.21f, 0.02f);
-        GameObject currentPrice = Instantiate(snackPrice, currentSnack.transform.position - snackPriceOffset, Quaternion.identity, vendingUI);
+        Vector3 snackPriceOffset = new Vector3(0, 0.21f, 0.02f); // Change this when the Vending machine model is put in!
+        GameObject currentPrice = Instantiate(snackPriceUI, currentSnack.transform.position - snackPriceOffset, Quaternion.identity, vendingUI);
         currentPrice.transform.GetComponent<TextMeshProUGUI>().text = currentSnack.transform.GetComponent<SnackController_script>().snackCost.ToString();
+    }
+
+    private void SetSnackLocationUIs(GameObject currentSnack) // Spawns in the snack location UI for the vending machine snacks
+    {
+        Vector3 snackLocationUIOffset = new Vector3(0, 0.01f, 0.1f); // Change this when the Vending machine model is put in!
+        GameObject currentLocationUI = Instantiate(snackLocationUI, currentSnack.transform.position - snackLocationUIOffset, Quaternion.identity, vendingUI);
+        currentLocationUI.transform.GetComponent<TextMeshProUGUI>().text = currentSnack.transform.GetComponent<SnackController_script>().snackPosID.ToString();
     }
     private void OnDisable()
     {
