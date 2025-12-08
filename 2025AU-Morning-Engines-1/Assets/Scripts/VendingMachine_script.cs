@@ -25,8 +25,6 @@ public class VendingMachine_script : MonoBehaviour
     public static event Action<VendingMachine_script> OnGameWin;
     public static event Action<VendingMachine_script> OnGameLose;
 
-    private int levelNumber = 0; // fix later with GameController
-
     private string input; // input from the keypad UI
     private string[] positionIDs = {
         "A1", "A2", "A3", "A4",
@@ -38,12 +36,13 @@ public class VendingMachine_script : MonoBehaviour
         SnackController_script.OnSnackBought += CheckSnacks;
 
         SetSnacks();
-        CheckSnacks();
+        // CheckSnacks();
     }
 
-    public void SetSnacks() // Positions all of the snacks for the level, called by GameController
+    public void SetSnacks(int levelNumber = 0) // Positions all of the snacks for the level, called by GameController and Start()
     {
         // for each snack, put them in their spot, and assign them their positionID (A1, A2, etc.)
+        levels[levelNumber].SetActive(true);
 
         for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
         {
@@ -57,7 +56,7 @@ public class VendingMachine_script : MonoBehaviour
             }
             catch
             {
-                Debug.Log("There was no snack at index: " + i);
+                Debug.LogWarning("There was no snack at index: " + i);
                 continue; // Move on to next iteration
             }
 
@@ -72,7 +71,7 @@ public class VendingMachine_script : MonoBehaviour
         int maxStatus = 0; // Used as a sum of the maximum possible status amount for the level before the level is beat
         int currentStatus = 0; // Actual status sum at the moment of checking
         Debug.Log("----------- CheckSnacks() Start -----------");
-        for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
+        for (int i = 0; i < levels[GameController_script.levelNum].transform.childCount; i++)
         {
 
             /*try { Debug.Log("- - Snack: " + snacks[i] + " - -"); }
@@ -136,11 +135,13 @@ public class VendingMachine_script : MonoBehaviour
         if (currentStatus >= maxStatus)
         {
             OnGameWin?.Invoke(this); // Used in GameController_script
+
+            
             return;
         }
         else
         {
-            //Debug.Log("currentStatus is less than maxStatus");
+            // Debug.Log("currentStatus is less than maxStatus");
 
             Debug.Log("----------- CheckSnacks() End -----------");
         }
