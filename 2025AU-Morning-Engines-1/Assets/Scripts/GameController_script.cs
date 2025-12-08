@@ -15,15 +15,30 @@ public class GameController_script : MonoBehaviour
     private Vector3 playerPos = new Vector3(0, 0, 0);
     private Vector3 vendingMachinePos = new Vector3(0.0f, 1.0f, 2.25f);
 
-    void OnEnable()
+
+
+    private void OnEnable()
     {
         player.SetActive(true);
 
         levels[levelNum].SetActive(true);
+        VendingMachine_script.OnGameLose += GameLoss;
+        VendingMachine_script.OnGameWin += GameWin;
     }
 
-    void Update()
+    void GameLoss(VendingMachine_script vendingMachine)
     {
-        
+        Debug.Log("You Lose!");
+    }
+
+    void GameWin(VendingMachine_script vendingMachine)
+    {
+        Debug.Log("You Win!");
+    }
+
+    private void OnDisable()
+    {
+        VendingMachine_script.OnGameLose -= GameLoss;
+        VendingMachine_script.OnGameWin -= GameWin;
     }
 }

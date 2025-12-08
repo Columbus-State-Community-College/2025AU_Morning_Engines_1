@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class PlayerController_script : MonoBehaviour
 {
     public static float playerMoney;
     [SerializeField] TextMeshProUGUI cashTextElement;
+
 
     private float scrollSpeed = 0.05f;
     private void Start()
@@ -43,7 +45,7 @@ public class PlayerController_script : MonoBehaviour
         switch (GameController_script.levelNum)
         {
             case 0:
-                playerMoney = 12.23f;
+                playerMoney = 15.23f;
                 break;
             case 1:
                 playerMoney = 15.34f;

@@ -77,23 +77,24 @@ public class SnackController_script : MonoBehaviour
         }
         else if (fallCondition == "Unstuck") // if this method is called due to a snack falling onto another snack
         {
-            Debug.Log(snackPosID + " should be unstuck");
+            // Debug.Log(snackPosID + " should be unstuck");
             snackStatus += 1;
             StartCoroutine(DispenseSnack());
         }
         else if (PlayerController_script.playerMoney > snackCost) // the snack can still be bought and the price has to be checked here
         {
             snackStatus += 1; // snackStatus cannot equal zero from now on
-            OnSnackBought?.Invoke(this); // Sends an event to PlayerController_script to edit the player money, can also be used for SFX
+            OnSnackBought?.Invoke(this); // Sends an event to PlayerController_script to edit the player money, also used in VendingMachine_script.
+                                         // Can also be used for SFX
 
             if (snackStatus == maxStatus)
             {
-                Debug.Log(snackPosID + " should be falling");
+                // Debug.Log(snackPosID + " should be falling");
                 StartCoroutine(DispenseSnack());
             }
             else if (snackStatus == 1)
             {
-                Debug.Log(snackPosID + " should be stuck");
+                // Debug.Log(snackPosID + " should be stuck");
                 animator.Play("SnackStuck");
             }
         }
