@@ -12,6 +12,7 @@ public class PlayerController_script : MonoBehaviour
 {
     public static float playerMoney;
     [SerializeField] TextMeshProUGUI cashTextElement;
+    [SerializeField] private float[] levelStartingMoney;
 
 
     private float scrollSpeed = 0.05f;
@@ -40,15 +41,7 @@ public class PlayerController_script : MonoBehaviour
 
     public void DetermineStartingCash()
     {
-        switch (GameController_script.levelNum)
-        {
-            case 0:
-                playerMoney = 15.23f;
-                break;
-            case 1:
-                playerMoney = 15.34f;
-                break;
-        }
+                playerMoney = levelStartingMoney[GameController_script.levelNum];
     }
     private void ChangePlayerMoney(SnackController_script snackController)
     {
