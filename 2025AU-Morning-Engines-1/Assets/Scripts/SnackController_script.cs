@@ -113,6 +113,17 @@ public class SnackController_script : MonoBehaviour
         {
             snackScriptBelow.TryDropSnack("Unstuck");
         }
+
+        if ((snackIndex - (vendingScript.width * 2)) < 0)
+        {
+            return;
+        }
+
+        snackScriptBelow = vendingScript.snacks[snackIndex - (vendingScript.width*2)].transform.GetComponent<SnackController_script>();
+        if ((snackScriptBelow.snackStatus == 1) && (snackScriptBelow.willGetStuck == 1))
+        {
+            snackScriptBelow.TryDropSnack("Unstuck");
+        }
     }
 
 

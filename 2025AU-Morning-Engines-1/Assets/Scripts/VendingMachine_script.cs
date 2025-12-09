@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 /* Description:
@@ -130,7 +129,7 @@ public class VendingMachine_script : MonoBehaviour
         }
         // Debug.Log("maxStatus:   " + maxStatus);
         // Debug.Log("currentStatus:    " + currentStatus);
-        // Debug.Log("minimumPriceLeft: " + minimumPriceLeft);
+         Debug.Log("minimumPriceLeft: " + minimumPriceLeft);
 
         if (currentStatus >= maxStatus)
         {
@@ -181,7 +180,7 @@ public class VendingMachine_script : MonoBehaviour
 
     private void SetSnackLocationUIs(GameObject currentSnack) // Spawns in the snack location UI for the vending machine snacks
     {
-        Vector3 snackLocationUIOffset = new Vector3(0, 0.01f, 0.1f); // Change this when the Vending machine model is put in!
+        Vector3 snackLocationUIOffset = new Vector3(0, 0.01f, 0.15f); // Change this when the Vending machine model is put in!
         GameObject currentLocationUI = Instantiate(snackLocationUI, currentSnack.transform.position - snackLocationUIOffset, Quaternion.identity, vendingUI);
         currentLocationUI.transform.GetComponent<TextMeshProUGUI>().text = currentSnack.transform.GetComponent<SnackController_script>().snackPosID.ToString();
     }
