@@ -65,11 +65,14 @@ function UploadTeamGame(platform, version_string, cb) {
   execFile(exePath, butler_command_args, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
+      console.log(`ran from ${exePath}`);
+      console.log(`stdout: ${stdout}`);
+      console.error(`stderr: ${stderr}`);
       return;
     }
 
     console.log(`stdout: ${stdout}`);
-    console.error(`stderr: ${stderr}`);
+    console.log(`stderr: ${stderr}`);
     console.log(`FINISHED ${JSON.stringify(butler_command_args)}\n\n`);
     cb(version_string);
   });
