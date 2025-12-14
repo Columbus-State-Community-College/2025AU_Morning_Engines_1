@@ -23,6 +23,7 @@ public class VendingMachine_script : MonoBehaviour
     public int width = 4; // Amount of snack positions in each row
     public static event Action<VendingMachine_script> OnGameWin;
     public static event Action<VendingMachine_script> OnGameLose;
+    public static bool playerRanOutOfCash = false;
 
     private string input; // input from the keypad UI
     private string[] positionIDs = {
@@ -46,12 +47,13 @@ public class VendingMachine_script : MonoBehaviour
         for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
         {
             snacks[i] = levels[levelNumber].transform.GetChild(i).gameObject;
+            SnackController_script currentSnack = snacks[i].GetComponent<SnackController_script>();
 
             try // The code here attempts to access each index of snacks[], so if there isn’t a snack at one of the indexes, then it will catch that and move to the next iteration
             {
                 snacks[i].SetActive(true);
-                snacks[i].GetComponent<SnackController_script>().snackPosID = positionIDs[i];
-                snacks[i].GetComponent<SnackController_script>().snackIndex = i;
+                currentSnack.snackPosID = positionIDs[i];
+                currentSnack.snackIndex = i;
             }
             catch
             {
@@ -66,13 +68,15 @@ public class VendingMachine_script : MonoBehaviour
     }
     private void CheckSnacks(SnackController_script snackController = null) // Makes sure all of the snacks are accounted for in their price and status
     {
-        float minimumPriceLeft = 0; // Minimum amount of money needed for the game to end
+        float minimumPriceLeft = 0.0f; // Minimum amount of money needed for the game to end
+        float highestPriceLeft = 0.0f; // Highest price currently in the vending machine
         int maxStatus = 0; // Used as a sum of the maximum possible status amount for the level before the level is beat
         int currentStatus = 0; // Actual status sum at the moment of checking
+
         Debug.Log("----------- CheckSnacks() Start -----------");
         for (int i = 0; i < levels[GameController_script.levelNum].transform.childCount; i++)
         {
-
+            SnackController_script currentSnack = snacks[i].GetComponent<SnackController_script>();
             /*try { Debug.Log("- - Snack: " + snacks[i] + " - -"); }
             catch
             {
@@ -82,7 +86,7 @@ public class VendingMachine_script : MonoBehaviour
                 continue; // Move on to the next snack, skipping the rest of this iteration
             }
 
-            try { Debug.Log("  Position: " + snacks[i].GetComponent<SnackController_script>().snackPosID); }
+            try { Debug.Log("  Position: " + currentSnack.snackPosID); }
             catch
             {
                 Debug.LogWarning("snacks[" + i + "].snackPos is not defined");
@@ -90,7 +94,8 @@ public class VendingMachine_script : MonoBehaviour
 
             try 
             {
-                Debug.Log("  Price: " + snacks[i].GetComponent<SnackController_script>().snackCost); 
+                // Debug.Log("  Price: " + currentSnack.snackCost);
+                
             }
             catch
             {
@@ -99,13 +104,13 @@ public class VendingMachine_script : MonoBehaviour
 
             try
             {
-                // Debug.Log("Status: " + snacks[i].GetComponent<SnackController_script>().snackStatus);
+                // Debug.Log("Status: " + currentSnack.snackStatus);
 
                 maxStatus += 1;
-                currentStatus += snacks[i].GetComponent<SnackController_script>().snackStatus;
-                if (snacks[i].GetComponent<SnackController_script>().snackStatus == 0) // if snack needs bought in order to fall
+                currentStatus += currentSnack.snackStatus;
+                if (currentSnack.snackStatus == 0) // if snack needs bought in order to fall
                 {
-                    minimumPriceLeft += snacks[i].GetComponent<SnackController_script>().snackCost;
+                    minimumPriceLeft += currentSnack.snackCost;
                 }
             }
             catch
@@ -117,7 +122,7 @@ public class VendingMachine_script : MonoBehaviour
             {
                 // Debug.Log("  WillGetStuck: " + snacks[i].GetComponent<SnackController_script>().willGetStuck);
 
-                if (snacks[i].GetComponent<SnackController_script>().willGetStuck > 0)
+                if (currentSnack.willGetStuck > 0)
                 {
                     maxStatus += 1; // if a snack can get stuck, the maximum status for it is larger
                 }
@@ -126,28 +131,42 @@ public class VendingMachine_script : MonoBehaviour
             {
                 Debug.LogWarning("snacks[" + i + "].willGetStuck is not defined");
             }
+
+            if ((currentSnack.snackCost > highestPriceLeft) && (currentSnack.snackStatus < 2)) // Finds the highest price of snack that is still in the machine
+            {
+                if ((currentSnack.snackStatus == 1) && (currentSnack.willGetStuck == 1))
+                {
+                    highestPriceLeft = currentSnack.snackCost;
+                    Debug.Log("New Highest Price: " + currentSnack.snackCost);
+                }
+                else if ((currentSnack.snackStatus == 0) && (currentSnack.willGetStuck == 0))
+                {
+                    highestPriceLeft = currentSnack.snackCost;
+                    Debug.Log("New Highest Price: " + currentSnack.snackCost);
+                }
+            }
         }
         // Debug.Log("maxStatus:   " + maxStatus);
         // Debug.Log("currentStatus:    " + currentStatus);
-         Debug.Log("minimumPriceLeft: " + minimumPriceLeft);
+        Debug.Log("minimumPriceLeft: " + minimumPriceLeft);
+        Debug.Log("highestPriceLeft: " + highestPriceLeft);
+        Debug.Log("playerMoney:      " + PlayerController_script.playerMoney);
 
         if (currentStatus >= maxStatus)
         {
             OnGameWin?.Invoke(this); // Used in GameController_script
-
-            
             return;
         }
         else
         {
             // Debug.Log("currentStatus is less than maxStatus");
-
-            Debug.Log("----------- CheckSnacks() End -----------");
         }
-        if (PlayerController_script.playerMoney < minimumPriceLeft)
+
+        if ((playerRanOutOfCash == true) && (PlayerController_script.playerMoney < highestPriceLeft)) // Lose Conditions
         {
             OnGameLose?.Invoke(this);
         }
+        Debug.Log("----------- CheckSnacks() End -----------");
     }
 
     private void GetInputFromKeypad(Keypad_script keypadScript)

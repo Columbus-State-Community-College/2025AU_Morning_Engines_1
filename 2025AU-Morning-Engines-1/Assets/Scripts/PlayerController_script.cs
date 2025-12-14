@@ -41,7 +41,7 @@ public class PlayerController_script : MonoBehaviour
 
     public void DetermineStartingCash()
     {
-                playerMoney = levelStartingMoney[GameController_script.levelNum];
+        playerMoney = levelStartingMoney[GameController_script.levelNum];
     }
     private void ChangePlayerMoney(SnackController_script snackController)
     {

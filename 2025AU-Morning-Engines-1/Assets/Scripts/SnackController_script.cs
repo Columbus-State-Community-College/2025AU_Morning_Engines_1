@@ -97,7 +97,11 @@ public class SnackController_script : MonoBehaviour
             }
         }
         else
-        { Debug.Log("Not enough cash!"); }
+        {
+            VendingMachine_script.playerRanOutOfCash = true;
+            Debug.Log("Not enough cash!");
+            OnSnackBought?.Invoke(this);
+        }
     }
 
     private void HitBelowSnacks() // Activates anytime a snack falls

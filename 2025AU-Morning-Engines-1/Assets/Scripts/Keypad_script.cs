@@ -17,15 +17,6 @@ public class Keypad_script : MonoBehaviour
     
     public static event Action<Keypad_script> OnEnterInput;
 
-    void Start()
-    {
-
-    }
-    void Update()
-    {
-
-    }
-
     public void ConcatenateInputString(string input)
     {
         if (inputString.Length >= 2)
