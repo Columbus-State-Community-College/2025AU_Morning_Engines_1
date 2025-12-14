@@ -43,11 +43,12 @@ public class PlayerController_script : MonoBehaviour
     {
         playerMoney = levelStartingMoney[GameController_script.levelNum];
     }
+
     private void ChangePlayerMoney(SnackController_script snackController)
     {
         playerMoney -= snackController.snackCost;
         //Pay_Animation();
-        cashTextElement.text = playerMoney.ToString();
+        cashTextElement.text = playerMoney.ToString("F2");
     }
 
     private void OnDisable()
