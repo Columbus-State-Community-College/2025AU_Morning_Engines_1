@@ -13,6 +13,7 @@ public class PlayerController_script : MonoBehaviour
     public static float playerMoney;
     [SerializeField] TextMeshProUGUI cashTextElement;
     [SerializeField] private float[] levelStartingMoney;
+    private float originalY;
 
 
     private float scrollSpeed = 0.05f;
@@ -20,6 +21,7 @@ public class PlayerController_script : MonoBehaviour
     {
         DetermineStartingCash();
         this.gameObject.SetActive(false);
+        originalY = transform.position.y;
     }
     void OnEnable()
     {
@@ -29,11 +31,11 @@ public class PlayerController_script : MonoBehaviour
 
     void Update()
     {
-        if ((Input.mouseScrollDelta.y > 0) && (transform.position.y < 0.7f))
+        if ((Input.mouseScrollDelta.y > 0) && (transform.position.y < originalY + 0.7f))
         {
             transform.Translate(Vector3.up * scrollSpeed);
         }
-        else if ((Input.mouseScrollDelta.y < 0) && (transform.position.y > -0.5f))
+        else if ((Input.mouseScrollDelta.y < 0) && (transform.position.y > originalY - 0.5f))
         {
             transform.Translate(Vector3.down * scrollSpeed);
         }

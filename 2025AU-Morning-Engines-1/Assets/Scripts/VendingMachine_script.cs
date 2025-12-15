@@ -73,7 +73,7 @@ public class VendingMachine_script : MonoBehaviour
         int maxStatus = 0; // Used as a sum of the maximum possible status amount for the level before the level is beat
         int currentStatus = 0; // Actual status sum at the moment of checking
 
-        Debug.Log("----------- CheckSnacks() Start -----------");
+        // Debug.Log("----------- CheckSnacks() Start -----------");
         for (int i = 0; i < levels[GameController_script.levelNum].transform.childCount; i++)
         {
             SnackController_script currentSnack = snacks[i].GetComponent<SnackController_script>();
@@ -148,9 +148,9 @@ public class VendingMachine_script : MonoBehaviour
         }
         // Debug.Log("maxStatus:   " + maxStatus);
         // Debug.Log("currentStatus:    " + currentStatus);
-        Debug.Log("minimumPriceLeft: " + minimumPriceLeft);
-        Debug.Log("highestPriceLeft: " + highestPriceLeft);
-        Debug.Log("playerMoney:      " + PlayerController_script.playerMoney);
+        // Debug.Log("minimumPriceLeft: " + minimumPriceLeft);
+        // Debug.Log("highestPriceLeft: " + highestPriceLeft);
+        // Debug.Log("playerMoney:      " + PlayerController_script.playerMoney);
 
         if (currentStatus >= maxStatus)
         {
@@ -166,7 +166,7 @@ public class VendingMachine_script : MonoBehaviour
         {
             OnGameLose?.Invoke(this);
         }
-        Debug.Log("----------- CheckSnacks() End -----------");
+        // Debug.Log("----------- CheckSnacks() End -----------");
     }
 
     private void GetInputFromKeypad(Keypad_script keypadScript)
