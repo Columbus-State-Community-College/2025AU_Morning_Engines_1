@@ -434,22 +434,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3810365143295528887, guid: 50be4d9144fd97d4986ca1ced58e8a1b, type: 3}
-      propertyPath: m_Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 6a908241f60821143b080eb4f669c473, type: 3}
-    - target: {fileID: 4868036722499543328, guid: 50be4d9144fd97d4986ca1ced58e8a1b, type: 3}
-      propertyPath: m_Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 3e13b5a178bde07449c7fd2107c11626, type: 3}
     - target: {fileID: 5535899480739925471, guid: 50be4d9144fd97d4986ca1ced58e8a1b, type: 3}
       propertyPath: m_Name
       value: Main Screen redesign
       objectReference: {fileID: 0}
-    - target: {fileID: 7473396191029934972, guid: 50be4d9144fd97d4986ca1ced58e8a1b, type: 3}
-      propertyPath: m_Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 48ca1a2bd7a5d5e4ea78354bdbfe9bcf, type: 3}
     - target: {fileID: 9034519811320803979, guid: 50be4d9144fd97d4986ca1ced58e8a1b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
