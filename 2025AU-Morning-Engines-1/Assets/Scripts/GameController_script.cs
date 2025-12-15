@@ -35,9 +35,14 @@ public class GameController_script : MonoBehaviour
     void GameWin(VendingMachine_script vendingMachine)
     {
         Debug.Log("You Win Round " + levelNum + "!");
-        winScreen.SetActive(true);
+        if (levelNum == 2)
+        {
+            winScreen.SetActive(true);
+            return;
+        }
+        
         levelNum++;
-        vendingScript.SetSnacks(levelNum);                                        // Will be used later for level swappage
+        vendingScript.SetSnacks(levelNum);                     // Swaps the level                   
         player.GetComponent<PlayerController_script>().DetermineStartingCash();
     }
 

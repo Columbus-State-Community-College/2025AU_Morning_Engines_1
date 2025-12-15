@@ -61,8 +61,17 @@ public class VendingMachine_script : MonoBehaviour
                 continue; // Move on to next iteration
             }
 
-            SetSnackPriceUIs(snacks[i]);
-            SetSnackLocationUIs(snacks[i]);
+            if (levelNumber == 0)
+            {
+                SetSnackPriceUIs(snacks[i]);
+                SetSnackLocationUIs(snacks[i]);
+            }
+            else
+            {
+                RemovePreviousSnackPriceUIs();
+                SetSnackPriceUIs(snacks[i]);
+            }
+            
         }
         return;
     }
@@ -77,7 +86,10 @@ public class VendingMachine_script : MonoBehaviour
         for (int i = 0; i < levels[GameController_script.levelNum].transform.childCount; i++)
         {
             SnackController_script currentSnack = snacks[i].GetComponent<SnackController_script>();
-            /*try { Debug.Log("- - Snack: " + snacks[i] + " - -"); }
+            try 
+            {
+                Debug.Log("- - Snack: " + snacks[i] + " - -"); 
+            }
             catch
             {
                 Debug.LogWarning("snacks[" + i + "] is not defined");
@@ -86,21 +98,25 @@ public class VendingMachine_script : MonoBehaviour
                 continue; // Move on to the next snack, skipping the rest of this iteration
             }
 
-            try { Debug.Log("  Position: " + currentSnack.snackPosID); }
-            catch
-            {
+            try   
+            { 
+                Debug.Log("  Position: " + currentSnack.snackPosID); 
+            }
+            catch 
+            { 
                 Debug.LogWarning("snacks[" + i + "].snackPos is not defined");
+                continue; 
             }
 
             try 
             {
-                // Debug.Log("  Price: " + currentSnack.snackCost);
-                
+                Debug.Log("  Price: " + currentSnack.snackCost);
             }
             catch
             {
                 Debug.LogWarning("snacks[" + i + "].snackCost is not defined");
-            }*/
+                continue;
+            }
 
             try
             {
@@ -178,10 +194,14 @@ public class VendingMachine_script : MonoBehaviour
             if (snacks[i] != null)
             {
                 SnackController_script currentSnackScript = snacks[i].transform.GetComponent<SnackController_script>();
-                if (currentSnackScript.snackPosID == input)
+                try
                 {
-                    currentSnackScript.TryDropSnack();
+                    if (currentSnackScript.snackPosID == input)
+                    {
+                        currentSnackScript.TryDropSnack();
+                    }
                 }
+                catch { Debug.LogWarning("snacks[" + i + "] has no posID"); }
             }
             else
             {
@@ -203,6 +223,12 @@ public class VendingMachine_script : MonoBehaviour
         GameObject currentLocationUI = Instantiate(snackLocationUI, currentSnack.transform.position - snackLocationUIOffset, Quaternion.identity, vendingUI);
         currentLocationUI.transform.GetComponent<TextMeshProUGUI>().text = currentSnack.transform.GetComponent<SnackController_script>().snackPosID.ToString();
     }
+
+    private void RemovePreviousSnackPriceUIs()
+    {
+
+    }
+
     private void OnDisable()
     {
         Keypad_script.OnEnterInput -= GetInputFromKeypad;

@@ -112,22 +112,32 @@ public class SnackController_script : MonoBehaviour
             return;
         }
 
-        SnackController_script snackScriptBelow = vendingScript.snacks[snackIndex - vendingScript.width].transform.GetComponent<SnackController_script>();
-        if ((snackScriptBelow.snackStatus == 1) && (snackScriptBelow.willGetStuck == 1))
+        try
         {
-            snackScriptBelow.TryDropSnack("Unstuck");
+            SnackController_script snackScriptBelow = vendingScript.snacks[snackIndex - vendingScript.width].transform.GetComponent<SnackController_script>();
+        
+            if ((snackScriptBelow.snackStatus == 1) && (snackScriptBelow.willGetStuck == 1))
+            {
+                snackScriptBelow.TryDropSnack("Unstuck");
+            }
         }
+        catch { }
+        
 
         if ((snackIndex - (vendingScript.width * 2)) < 0)
         {
             return;
         }
 
-        snackScriptBelow = vendingScript.snacks[snackIndex - (vendingScript.width*2)].transform.GetComponent<SnackController_script>();
-        if ((snackScriptBelow.snackStatus == 1) && (snackScriptBelow.willGetStuck == 1))
+        try
         {
-            snackScriptBelow.TryDropSnack("Unstuck");
+            SnackController_script snackScriptBelow = vendingScript.snacks[snackIndex - (vendingScript.width * 2)].transform.GetComponent<SnackController_script>();
+            if ((snackScriptBelow.snackStatus == 1) && (snackScriptBelow.willGetStuck == 1))
+            {
+                snackScriptBelow.TryDropSnack("Unstuck");
+            }
         }
+        catch { }
     }
 
 
