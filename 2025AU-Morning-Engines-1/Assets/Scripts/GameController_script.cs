@@ -35,13 +35,17 @@ public class GameController_script : MonoBehaviour
     void GameWin(VendingMachine_script vendingMachine)
     {
         Debug.Log("You Win Round " + levelNum + "!");
-        if (levelNum == 2)
+        
+        if (levelNum == vendingMachine.GetLevels().Length - 1)
         {
+            Debug.Log("LevelNum: " + levelNum + " / levels.length: " + (vendingMachine.GetLevels().Length - 1));
+            Debug.Log("You Win!");
             winScreen.SetActive(true);
             return;
         }
         
         levelNum++;
+        Debug.Log("LevelNum: " + levelNum + " / levels.length: " + (vendingMachine.GetLevels().Length - 1));
         vendingScript.SetSnacks(levelNum);                     // Swaps the level                   
         player.GetComponent<PlayerController_script>().DetermineStartingCash();
     }

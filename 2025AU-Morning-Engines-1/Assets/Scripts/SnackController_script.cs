@@ -58,8 +58,7 @@ public class SnackController_script : MonoBehaviour
     }
 
     public void TryDropSnack(string fallCondition = "defaultString") // Used to try to drop a snack, it does this by adding to the snackStatus
-                                                                     // fallCondition is just used for when a snack falls onto another snack
-    {
+    {                                                                  // fallCondition is just used for when a snack falls onto another snack
         int maxStatus;
         // Debug.Log("dropping snack: " + snackPosID);
         if (willGetStuck == 1)
@@ -72,6 +71,7 @@ public class SnackController_script : MonoBehaviour
         if (snackStatus == maxStatus) // if snack spot empty
         {
             Debug.Log("That snack has already been bought!");
+            return;
         }
         else if (fallCondition == "Unstuck") // if this method is called due to a snack falling onto another snack
         {
@@ -157,9 +157,12 @@ public class SnackController_script : MonoBehaviour
         
         this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         this.gameObject.GetComponent<Rigidbody>().useGravity = true;
-        HitBelowSnacks();
 
-        yield return new WaitForSeconds(1.0f); // Wait to dispense snack
+        yield return new WaitForSeconds(0.4f); // Wait to dispense snack
+
+        HitBelowSnacks(); // could be timed better for hitting snacks below
+
+        yield return new WaitForSeconds(0.6f); // Wait to dispense snack
 
         BoxCollider snackCollider;
         if (transform.GetChild(0).gameObject.GetComponent<BoxCollider>() != null)

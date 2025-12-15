@@ -65,7 +65,7 @@ public class SoundEffectManager_script : MonoBehaviour
     {
         if (!_soundDictionary.TryGetValue(type, out Sound s))
         {
-            Debug.LogWarning($"Sound{type} not found.");
+            // Debug.LogWarning($"Sound{type} not found.");
             return;
         }
 
