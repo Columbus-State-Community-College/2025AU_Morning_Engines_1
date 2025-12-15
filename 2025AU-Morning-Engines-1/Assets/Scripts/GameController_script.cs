@@ -36,9 +36,9 @@ public class GameController_script : MonoBehaviour
     {
         Debug.Log("You Win Round " + levelNum + "!");
         winScreen.SetActive(true);
-        //levelNum++;
-        //vendingScript.SetSnacks(levelNum);                                        // Will be used later for level swappage
-        //player.GetComponent<PlayerController_script>().DetermineStartingCash();
+        levelNum++;
+        vendingScript.SetSnacks(levelNum);                                        // Will be used later for level swappage
+        player.GetComponent<PlayerController_script>().DetermineStartingCash();
     }
 
     private void OnDisable()
