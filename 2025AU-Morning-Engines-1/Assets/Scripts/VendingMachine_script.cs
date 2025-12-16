@@ -47,7 +47,7 @@ public class VendingMachine_script : MonoBehaviour
         levels[levelNumber].SetActive(true);
         if (levelNumber != 0)
         {
-            //RemovePreviousSnackUIs(levelNumber); 
+            RemovePreviousSnackUIs(levelNumber); 
         }
 
         for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
