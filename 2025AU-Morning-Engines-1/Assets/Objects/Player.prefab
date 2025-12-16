@@ -536,9 +536,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cashTextElement: {fileID: 7326608231620698840}
   levelStartingMoney:
-  - 20.21
-  - 18.97
-  - 16.34
+  - 17.51
+  - 16.96
+  - 20
 --- !u!1 &2787503325540485802
 GameObject:
   m_ObjectHideFlags: 0

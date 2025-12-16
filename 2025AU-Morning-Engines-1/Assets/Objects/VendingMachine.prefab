@@ -1546,6 +1546,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   vendingUI: {fileID: 3892112236964594619}
   snackPriceUI: {fileID: 8068867819980856162, guid: 2929e1c8fb76f0442836864ccedaea0f, type: 3}
   snackLocationUI: {fileID: 8068867819980856162, guid: 3ccb979fd5dcbf1498f10ac66ae1bed7, type: 3}
