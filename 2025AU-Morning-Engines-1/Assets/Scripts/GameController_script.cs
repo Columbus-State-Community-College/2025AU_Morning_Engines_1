@@ -63,5 +63,6 @@ public class GameController_script : MonoBehaviour
 
         string currentSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentSceneName);
+        levelNum = 0;
     }
 }
