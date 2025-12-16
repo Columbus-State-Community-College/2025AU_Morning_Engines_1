@@ -16,14 +16,32 @@ public class PlayerController_script : MonoBehaviour
     public float[] levelStartingMoney;
     private float originalY;
     private float lastSnackCost = 0.00f;
-
-
     private float scrollSpeed = 0.05f;
+    public Animator billAnimator;
+    public Animator coinAnimator;
+
     private void Start()
     {
+        if (billAnimator == null) //makes sure the animator is logged
+        {
+            billAnimator = GameObject.Find("OneDollarModel").GetComponent<Animator>();
+            if (billAnimator == null)
+            {
+                Debug.LogError("Animator not found.", gameObject);
+            }
+        }
+        if (coinAnimator == null) //makes sure the animator is logged
+        {
+            coinAnimator = GameObject.Find("CoinModel").GetComponent<Animator>();
+            if (coinAnimator == null)
+            {
+                Debug.LogError("Animator not found.", gameObject);
+            }
+        }
         DetermineStartingCash();
         this.gameObject.SetActive(false);
         originalY = transform.position.y;
+        
     }
     void OnEnable()
     {
@@ -53,7 +71,8 @@ public class PlayerController_script : MonoBehaviour
     {
         lastSnackCost = snackController.snackCost;
         playerMoney -= snackController.snackCost;
-        //Pay_Animation();
+        Pay_Animation(lastSnackCost);
+        
         cashTextElement.text = playerMoney.ToString("F2");
     }
 
@@ -62,19 +81,20 @@ public class PlayerController_script : MonoBehaviour
         SnackController_script.OnSnackBought -= ChangePlayerMoney;
     }
 
-    public void Pay_Animation(SnackController_script snackController)
+    public void Pay_Animation(float cost)
     {
-        float CurrentCost = snackController.snackCost; 
-        if (CurrentCost == 0.99)
+        float CurrentCost = cost; 
+        if (CurrentCost >= 0.99f)
         {
-         //   GetComponent<Animation>().play("billinsert_animation");
+            coinAnimator.SetTrigger("CoinInserted");
+            
+            
         }
-        // 0.99 play coin animation 9 times
-
-
-        // 1.49 play bill animation 1 time and coin animation 7 times
-        // 1.99 play bill animation 1 time and coin animation 9 times
-        // 2.49 play bill animation 2 times and coin animation 7 times
-        // 2.99 play bill animation 2 times and coin animation 9 times
+        else
+        {
+            coinAnimator.SetTrigger("CoinInserted");
+            billAnimator.SetTrigger("BillInserted");
+        }
+       
     }
 }
