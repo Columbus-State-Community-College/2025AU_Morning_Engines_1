@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8878639263661351107}
   m_Layer: 0
-  m_Name: EmptySlot (1)
+  m_Name: EmptySlotC1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1528,7 +1528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910ca3adbeb242c4694cbd4894ead979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logStuff: 0
+  logStuff: 1
   levels:
   - {fileID: 6891480018999483105}
   - {fileID: 8470872191030649689}

@@ -11,7 +11,7 @@ public class GameController_script : MonoBehaviour
 {
     public static int levelNum;
     [SerializeField] private GameObject player;
-    [SerializeField] private VendingMachine_script vendingScript;
+    //[SerializeField] private VendingMachine_script vendingScript;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject loseScreen;
 
@@ -43,10 +43,10 @@ public class GameController_script : MonoBehaviour
             winScreen.SetActive(true);
             return;
         }
-        
-        levelNum++;
+
         Debug.Log("LevelNum: " + levelNum + " / levels.length: " + (vendingMachine.GetLevels().Length - 1));
-        vendingScript.SetSnacks(levelNum);                     // Swaps the level                   
+        levelNum++;
+        vendingMachine.SetSnacks(levelNum);                     // Swaps the level                   
         player.GetComponent<PlayerController_script>().DetermineStartingCash();
     }
 

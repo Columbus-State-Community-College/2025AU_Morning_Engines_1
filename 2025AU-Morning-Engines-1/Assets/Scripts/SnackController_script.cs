@@ -77,6 +77,8 @@ public class SnackController_script : MonoBehaviour
         {
             // Debug.Log(snackPosID + " should be unstuck");
             snackStatus += 1;
+            this.snackCost = 0.00f;
+            OnSnackBought?.Invoke(this);
             StartCoroutine(DispenseSnack());
         }
         else if (PlayerController_script.playerMoney > snackCost) // the snack can still be bought and the price has to be checked here
@@ -158,11 +160,9 @@ public class SnackController_script : MonoBehaviour
         this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         this.gameObject.GetComponent<Rigidbody>().useGravity = true;
 
-        yield return new WaitForSeconds(0.4f); // Wait to dispense snack
-
         HitBelowSnacks(); // could be timed better for hitting snacks below
 
-        yield return new WaitForSeconds(0.6f); // Wait to dispense snack
+        yield return new WaitForSeconds(1.0f); // Wait to dispense snack
 
         BoxCollider snackCollider;
         if (transform.GetChild(0).gameObject.GetComponent<BoxCollider>() != null)

@@ -47,7 +47,7 @@ public class VendingMachine_script : MonoBehaviour
         levels[levelNumber].SetActive(true);
         if (levelNumber != 0)
         {
-            RemovePreviousSnackUIs(levelNumber); 
+            //RemovePreviousSnackUIs(levelNumber); 
         }
 
         for (int i = 0; i < levels[levelNumber].transform.childCount; i++)
@@ -190,8 +190,9 @@ public class VendingMachine_script : MonoBehaviour
     private void GetInputFromKeypad(Keypad_script keypadScript)
     {
         Debug.Log("Input inputted: " + keypadScript.inputString);
+
         input = keypadScript.inputString;
-        for (int i = 0; i < snacks.Length; i++) // for each snack
+        for (int i = 0; i < snacks.Length - 1; i++) // for each snack
         {
             if (snacks[i] != null)
             {
@@ -207,7 +208,7 @@ public class VendingMachine_script : MonoBehaviour
             }
             else
             {
-                Debug.Log("snacks[" + i + "] == null");
+                //Debug.Log("snacks[" + i + "] == null, out of snacks[" + (snacks.Length - 1) + "]");
                 return;
             }
         }
@@ -215,7 +216,7 @@ public class VendingMachine_script : MonoBehaviour
 
     private void SetSnackPriceUIs(GameObject currentSnack, int lvlNum = -1) // Spawns in the price UI for the vending machine snacks
     {
-        Debug.Log("SettingPrices(" + lvlNum + ")");
+        //Debug.Log("SettingPrices(" + lvlNum + ")");
         Vector3 snackPriceOffset = new Vector3(0, 0.21f, 0.02f); // Change this when the Vending machine model is put in!
         GameObject currentPrice = Instantiate(snackPriceUI, currentSnack.transform.position - snackPriceOffset, Quaternion.identity, vendingUI);
         currentPrice.transform.GetComponent<TextMeshProUGUI>().text = currentSnack.transform.GetComponent<SnackController_script>().snackCost.ToString();
@@ -223,7 +224,7 @@ public class VendingMachine_script : MonoBehaviour
 
     private void SetSnackLocationUIs(GameObject currentSnack, int lvlNum = -1) // Spawns in the snack location UI for the vending machine snacks
     {
-        Debug.Log("SettingLocations(" + lvlNum + ")");
+        //Debug.Log("SettingLocations(" + lvlNum + ")");
         Vector3 snackLocationUIOffset = new Vector3(0, 0.01f, 0.15f); // Change this when the Vending machine model is put in!
         GameObject currentLocationUI = Instantiate(snackLocationUI, currentSnack.transform.position - snackLocationUIOffset, Quaternion.identity, vendingUI);
         currentLocationUI.transform.GetComponent<TextMeshProUGUI>().text = currentSnack.transform.GetComponent<SnackController_script>().snackPosID.ToString();
@@ -231,10 +232,10 @@ public class VendingMachine_script : MonoBehaviour
 
     private void RemovePreviousSnackUIs(int lvlNum = -1)
     {
-        Debug.Log("RemovingSnackUIs(" + lvlNum + ")");
+        //Debug.Log("RemovingSnackUIs(" + lvlNum + ")");
         for (int i = 0; i < vendingUI.childCount; i++)
         {
-            Debug.Log("Removing:" + vendingUI.GetChild(i).name);
+            //Debug.Log("Removing:" + vendingUI.GetChild(i).name);
 
             vendingUI.GetChild(i).gameObject.SetActive(false);
         }

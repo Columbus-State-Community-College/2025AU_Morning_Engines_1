@@ -13,8 +13,9 @@ public class PlayerController_script : MonoBehaviour
 {
     public static float playerMoney;
     [SerializeField] TextMeshProUGUI cashTextElement;
-    [SerializeField] private float[] levelStartingMoney;
+    public float[] levelStartingMoney;
     private float originalY;
+    private float lastSnackCost = 0.00f;
 
 
     private float scrollSpeed = 0.05f;
@@ -45,10 +46,12 @@ public class PlayerController_script : MonoBehaviour
     public void DetermineStartingCash()
     {
         playerMoney = levelStartingMoney[GameController_script.levelNum];
+        playerMoney += lastSnackCost;
     }
 
     private void ChangePlayerMoney(SnackController_script snackController)
     {
+        lastSnackCost = snackController.snackCost;
         playerMoney -= snackController.snackCost;
         //Pay_Animation();
         cashTextElement.text = playerMoney.ToString("F2");
